@@ -14,18 +14,18 @@ jobs:
         steps:
             # ブラウザで表示される名前(name)
             - name: Checkout
-            # アクションの実行を定義する(uses)。アクションは別ファイルで定義
-            uses: actions/checkout@v2.0.0
+            # アクションの実行を定義する(uses)
+              uses: actions/checkout@v2.0.0
             - name: Set Node.js 12.x
-            uses: actions/setup-node@v1.3.0
+              uses: actions/setup-node@v1.3.0
             # 直前のアクションで使うパラメータを定義する(with)。INPUT_(パラメータを大文字)でアクションに渡される
-            with:
+              with:
                 node-version: 12.x
             - name: Install dependencies
                 # コマンドラインを実行する(run)
-                run: npm ci
+              run: npm ci
             - name: Test
-                run: npm test
+              run: npm test
     lint:
         name: Lint
         runs-on: ubuntu-latest
@@ -37,6 +37,6 @@ jobs:
               with:
                 node-version: 12.x
             - name: Install dependencies
-                run: npm ci
+              run: npm ci
             - name: Lint
-                run: npm run lint
+              run: npm run lint
