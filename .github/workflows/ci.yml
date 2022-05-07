@@ -45,6 +45,14 @@ jobs:
               run: npm ci
             - name: Test
               run: npm test
+            
+            # アーティファクトにカバレッジ結果をアップロードする
+            - name: Upload test coverage
+              uses: actions/upload-artifact@v2
+              with:
+                name: test-coverage-${{ runner.os }}-12.x
+                # pathディレクトリ下のファイルをアップロードする
+                path: coverage
     lint:
         name: Lint
         runs-on: ubuntu-latest
