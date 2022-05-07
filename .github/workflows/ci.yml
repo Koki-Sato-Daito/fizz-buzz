@@ -21,6 +21,25 @@ jobs:
             # 直前のアクションで使うパラメータを定義する(with)。INPUT_(パラメータを大文字)でアクションに渡される
               with:
                 node-version: 12.x
+
+            # 依存ライブラリをキャッシュさせるディレクトリを取得
+            - name: Get NPM cache directory
+              id: npm-cache
+              run: |
+                echo "::set-output name=dir::$(npm config get cache)"
+            # 実際にキャッシュさせる
+            - name: Cache NPM
+            # actions/cacheを実行させる
+              uses: actions/cache@v1.1.0
+              with:
+                # keyに一致するキャッシュがある場合に復元するパス
+                path: ${{ steps.npm-cache.outputs.dir }}
+                # キャッシュのキー、package-json.lockが変更されたらキャッシュを作り直す
+                key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                # keyに完全に一致するキーがなかった場合に使われるキー(前方一致かつ直近のもの)
+                restore-keys: |
+                    ${{ runner.os }}-node-
+
             - name: Install dependencies
                 # コマンドラインを実行する(run)
               run: npm ci
